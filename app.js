@@ -4,13 +4,14 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
 const { check, validationResult} = require('express-validator');
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 
 const app = express();
 
 require('dotenv').config()
 
 //import routes
+const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
 
 /** Connect to DB */
@@ -27,6 +28,7 @@ app.get('/', function(req, res) {
     res.send('Olá mundo');
 });
 //routes middleware
+app.use("/api", authRoutes)
 app.use("/api", userRoutes)
 
 const port = process.env.PORT || 8080
